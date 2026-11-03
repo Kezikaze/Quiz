@@ -176,3 +176,108 @@
     }
 
     .option-btn.incorrect {
+      background: var(--incorrect) !important;
+      border-color: #E57373;
+    }
+
+    .feedback-box {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .certificate {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 215, 0, 0.05);
+      border: 2px dashed var(--gold);
+      border-radius: 15px;
+      margin-top: 1rem;
+    }
+
+    .certificate h2 {
+      color: var(--gold);
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-display {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 1rem 0;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .privacy-notice {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen active">
+      <header>
+        <h1>🪔 Tabletop Festive Quiz</h1>
+        <p class="subtitle">Celebrating Diwali, Bandi Chhor Divas & Swanti</p>
+      </header>
+
+      <p style="margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem;">
+        Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
+      </p>
+
+      <div class="input-group">
+        <label for="table-name">Enter Your Table Name / Number:</label>
+        <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" autocomplete="off">
+      </div>
+
+      <button class="btn" id="start-btn">Start Quiz</button>
+
+      <p class="privacy-notice">
+        🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected, saved, or sent to any server.
+      </p>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+
+      <div id="clue-container" class="clue-box" style="display: none;">
+        🔍 <strong>Table Clue:</strong> <span id="clue-text"></span>
+      </div>
+
+      <div class="question-title" id="question-text">Loading question...</div>
+
+      <div class="options-grid" id="options-container"></div>
+
+      <div id="feedback-container" class="feedback-box" style="display: none;"></div>
+
+      <button class="btn" id="next-btn" style="display: none;">Next Question</button>
+    </div>
+
+    <!-- END SCREEN -->
+    <div id="end-screen" class="screen">
+      <header>
+        <h1>🎉 Quiz Complete!</h1>
+        <p class="subtitle">Thank you for celebrating with us today</p>
+      </header>
