@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festive Tabletop Quiz: Light & Unity</title>
+  <style>
+    :root {
+      --bg-deep: #120326;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 215, 0, 0.25);
+      --gold: #FFD700;
+      --gold-hover: #E6C200;
+      --maroon: #800020;
+      --teal: #008080;
+      --text-light: #FBF8F1;
+      --text-muted: #D1C4E9;
+      --correct: #2E7D32;
+      --incorrect: #C62828;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top center, #2A085C 0%, var(--bg-deep) 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .input-group {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    input[type="text"] {
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-light);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold) 0%, #FFA500 100%);
+      color: #000;
+      font-weight: 700;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .clue-box {
+      background: rgba(0, 128, 128, 0.25);
+      border-left: 4px solid var(--teal);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+      color: #E0F2F1;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      color: var(--text-light);
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .option-btn:hover {
+      background: rgba(255, 215, 0, 0.15);
+    }
+
+    .option-btn.correct {
+      background: var(--correct) !important;
+      border-color: #81C784;
+    }
+
+    .option-btn.incorrect {
