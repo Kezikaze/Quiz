@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festive Tabletop Quiz: Light & Unity</title>
+  <style>
+    :root {
+      --bg-deep: #120326;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 215, 0, 0.25);
+      --gold: #FFD700;
+      --gold-hover: #E6C200;
+      --maroon: #800020;
+      --teal: #008080;
+      --text-light: #FBF8F1;
+      --text-muted: #D1C4E9;
+      --correct: #2E7D32;
+      --incorrect: #C62828;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top center, #2A085C 0%, var(--bg-deep) 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .input-group {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    input[type="text"] {
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-light);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold) 0%, #FFA500 100%);
+      color: #000;
+      font-weight: 700;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .clue-box {
+      background: rgba(0, 128, 128, 0.25);
+      border-left: 4px solid var(--teal);
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+      color: #E0F2F1;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      color: var(--text-light);
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .option-btn:hover {
+      background: rgba(255, 215, 0, 0.15);
+    }
+
+    .option-btn.correct {
+      background: var(--correct) !important;
+      border-color: #81C784;
+    }
+
+    .option-btn.incorrect {
+      background: var(--incorrect) !important;
+      border-color: #E57373;
+    }
+
+    .feedback-box {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .certificate {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 215, 0, 0.05);
+      border: 2px dashed var(--gold);
+      border-radius: 15px;
+      margin-top: 1rem;
+    }
+
+    .certificate h2 {
+      color: var(--gold);
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-display {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 1rem 0;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .privacy-notice {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen active">
+      <header>
+        <h1>🪔 Tabletop Festive Quiz</h1>
+        <p class="subtitle">Celebrating Diwali, Bandi Chhor Divas & Swanti</p>
+      </header>
+
+      <p style="margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem;">
+        Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
+      </p>
+
+      <div class="input-group">
+        <label for="table-name">Enter Your Table Name / Number:</label>
+        <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" autocomplete="off">
+      </div>
+
+      <button class="btn" onclick="startQuiz()">Start Quiz</button>
+
+      <p class="privacy-notice">
+        🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected, saved, or sent to any server.
+      </p>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+
+      <div id="clue-container" class="clue-box" style="display: none;">
+        🔍 <strong>Table Clue:</strong> <span id="clue-text"></span>
+      </div>
+
+      <div class="question-title" id="question-text">Loading question...</div>
+
+      <div class="options-grid" id="options-container"></div>
+
+      <div id="feedback-container" class="feedback-box" style="display: none;"></div>
+
+      <button class="btn" id="next-btn" style="display: none;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <!-- END SCREEN -->
+    <div id="end-screen" class="screen">
+      <header>
+        <h1>🎉 Quiz Complete!</h1>
+        <p class="subtitle">Thank you for celebrating with us today</p>
+      </header>
+
+      <div class="certificate">
+        <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Official Scorecard</p>
+        <h2 id="cert-table-name">Table Name</h2>
+        <div class="score-display" id="final-score">0/5</div>
+        <p id="cert-message" style="font-size: 0.95rem; color: var(--text-muted);"></p>
+      </div>
+
+      <button class="btn" onclick="location.reload()">Play Again</button>
+
+      <p class="privacy-notice">
+        Show this screen to your event host to record your table's final score!
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "1. Look at your table lantern or menu card. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many kings?",
+        clue: "Check your table card or count the lamps drawn on the lantern base!",
+        options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
+        correct: 1,
+        fact: "Bandi Chhor Divas marks the day Guru Hargobind Ji negotiated the release of 52 innocent political prisoner kings from Gwalior Fort by crafting a special robe with 52 tassels."
+      },
+      {
+        question: "2. In Jain tradition, Diwali marks a significant spiritual milestone for Lord Mahavira. What event is commemorated?",
+        clue: "Check the Jain Tradition card on your table.",
+        options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His return from exile"],
+        correct: 1,
+        fact: "For Jains, Diwali marks the liberation (Moksha) of Lord Mahavira,
