@@ -10,8 +10,6 @@
       --card-bg: rgba(255, 255, 255, 0.08);
       --card-border: rgba(255, 215, 0, 0.25);
       --gold: #FFD700;
-      --gold-hover: #E6C200;
-      --maroon: #800020;
       --teal: #008080;
       --text-light: #FBF8F1;
       --text-muted: #D1C4E9;
@@ -89,11 +87,6 @@
       outline: none;
     }
 
-    input[type="text"]:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
-    }
-
     .btn {
       width: 100%;
       background: linear-gradient(135deg, var(--gold) 0%, #FFA500 100%);
@@ -104,13 +97,11 @@
       border-radius: 10px;
       cursor: pointer;
       font-size: 1rem;
-      transition: all 0.2s ease;
       margin-top: 1rem;
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     }
 
     .progress-bar {
@@ -160,14 +151,9 @@
       text-align: left;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: background 0.2s;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-    }
-
-    .option-btn:hover {
-      background: rgba(255, 215, 0, 0.15);
     }
 
     .option-btn.correct {
@@ -195,7 +181,7 @@
     }
 
     .screen.active {
-      display: block;
+      display: block !important;
     }
 
     .certificate {
@@ -218,7 +204,6 @@
       font-weight: 800;
       color: var(--gold);
       margin: 1rem 0;
-      text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
     }
 
     .privacy-notice {
@@ -246,10 +231,10 @@
 
       <div class="input-group">
         <label for="table-name">Enter Your Table Name / Number:</label>
-        <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" autocomplete="off">
+        <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" value="Table 1">
       </div>
 
-      <button class="btn" id="start-btn">Start Quiz</button>
+      <button class="btn" id="start-btn" type="button">Start Quiz</button>
 
       <p class="privacy-notice">
         🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected, saved, or sent to any server.
@@ -272,7 +257,7 @@
 
       <div id="feedback-container" class="feedback-box" style="display: none;"></div>
 
-      <button class="btn" id="next-btn" style="display: none;">Next Question</button>
+      <button class="btn" id="next-btn" type="button" style="display: none;">Next Question</button>
     </div>
 
     <!-- END SCREEN -->
@@ -281,3 +266,85 @@
         <h1>🎉 Quiz Complete!</h1>
         <p class="subtitle">Thank you for celebrating with us today</p>
       </header>
+
+      <div class="certificate">
+        <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Official Scorecard</p>
+        <h2 id="cert-table-name">Table Name</h2>
+        <div class="score-display" id="final-score">0/5</div>
+        <p id="cert-message" style="font-size: 0.95rem; color: var(--text-muted);"></p>
+      </div>
+
+      <button class="btn" id="reload-btn" type="button">Play Again</button>
+
+      <p class="privacy-notice">
+        Show this screen to your event host to record your table's final score!
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const questions = [
+        {
+          question: "1. Look at your table lantern or menu card. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many kings?",
+          clue: "Check your table card or count the lamps drawn on the lantern base!",
+          options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
+          correct: 1,
+          fact: "Bandi Chhor Divas marks the day Guru Hargobind Ji negotiated the release of 52 innocent political prisoner kings from Gwalior Fort by crafting a special robe with 52 tassels."
+        },
+        {
+          question: "2. In Jain tradition, Diwali marks a significant spiritual milestone for Lord Mahavira. What event is commemorated?",
+          clue: "Check the Jain Tradition card on your table.",
+          options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His return from exile"],
+          correct: 1,
+          fact: "For Jains, Diwali marks the liberation (Moksha) of Lord Mahavira, the 24th Tirthankara, in 527 BCE."
+        },
+        {
+          question: "3. In Newar Buddhist tradition, the 5-day autumn festival is known as Swanti. Which unique ritual celebrates self-respect and inner divinity?",
+          clue: "Look at your table menu under 'Buddhist Traditions'.",
+          options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Laxmi Puja", "Dog Puja (Kukur Tihar)"],
+          correct: 0,
+          fact: "Mha Puja is a unique Newar tradition where individuals cleanse and worship their own inner spirit, purifying the mind for the new year."
+        },
+        {
+          question: "4. What is the traditional metaphor behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
+          clue: "Reflect on host question #7 on your table sheet!",
+          options: ["Spring cleaning before winter", "Clearing out physical and mental clutter to invite positivity", "Preparing space for guest furniture", "A strictly mandatory chore with no symbolic meaning"],
+          correct: 1,
+          fact: "Diwali ki Safai symbolises clearing out emotional and physical clutter to welcome fresh energy, renewal, and positivity."
+        },
+        {
+          question: "5. What do the glowing earthen lamps (Diyas) traditionally symbolise across all four celebrating faiths?",
+          clue: "Look inside your tabletop lantern!",
+          options: ["Triumph of light over darkness and knowledge over ignorance", "A sign for fireworks displays", "A guide for travelling guests only", "A seasonal decoration"],
+          correct: 0,
+          fact: "Across Hinduism, Sikhism, Jainism, and Buddhism, the light of the diya represents hope, inner light, and the victory of wisdom over darkness."
+        }
+      ];
+
+      let currentQ = 0;
+      let score = 0;
+      let tableName = "Table 1";
+      let answered = false;
+
+      const startBtn = document.getElementById("start-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const reloadBtn = document.getElementById("reload-btn");
+      const tableNameInput = document.getElementById("table-name");
+
+      startBtn.onclick = function() {
+        const val = tableNameInput.value.trim();
+        if (val) tableName = val;
+        document.getElementById("start-screen").classList.remove("active");
+        document.getElementById("quiz-screen").classList.add("active");
+        loadQuestion();
+      };
+
+      nextBtn.onclick = function() {
+        currentQ++;
+        if (currentQ < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
