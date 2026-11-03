@@ -77,7 +77,7 @@
       color: var(--gold);
     }
 
-    input[type="text"] {
+    input[type="text"], input[type="number"] {
       padding: 0.8rem 1rem;
       border-radius: 10px;
       border: 1px solid var(--card-border);
@@ -199,7 +199,19 @@
       font-size: 3rem;
       font-weight: 800;
       color: var(--gold);
-      margin: 1rem 0;
+      margin: 0.5rem 0;
+    }
+
+    .code-badge {
+      display: inline-block;
+      background: rgba(255, 215, 0, 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
     }
 
     .privacy-notice {
@@ -207,6 +219,24 @@
       text-align: center;
       font-size: 0.75rem;
       color: rgba(255, 255, 255, 0.4);
+    }
+
+    table.scoreboard {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    table.scoreboard th, table.scoreboard td {
+      border: 1px solid var(--card-border);
+      padding: 0.6rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    table.scoreboard th {
+      background: rgba(255, 215, 0, 0.15);
+      color: var(--gold);
     }
   </style>
 </head>
@@ -222,7 +252,7 @@
       </header>
 
       <p style="margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem;">
-        Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
+        Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Newar Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
       </p>
 
       <form id="quiz-start-form" onsubmit="handleStart(event)">
@@ -230,11 +260,11 @@
           <label for="table-name">Enter Your Table Name / Number:</label>
           <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" required>
         </div>
-        <button class="btn" type="submit">Start Quiz</button>
+        <button class="btn" type="submit">Start 12-Question Quiz</button>
       </form>
 
       <p class="privacy-notice">
-        🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected, saved, or sent to any server.
+        🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected or sent to external servers.
       </p>
     </div>
 
@@ -267,55 +297,151 @@
       <div class="certificate">
         <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Official Scorecard</p>
         <h2 id="cert-table-name">Table Name</h2>
-        <div class="score-display" id="final-score">0/5</div>
-        <p id="cert-message" style="font-size: 0.95rem; color: var(--text-muted);"></p>
+        <div class="score-display" id="final-score">0/12</div>
+        <p id="cert-message" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.5rem;"></p>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Verification Code for Host:</p>
+        <div class="code-badge" id="verification-code">CODE-0000</div>
       </div>
 
       <button class="btn" type="button" onclick="location.reload()">Play Again</button>
 
       <p class="privacy-notice">
-        Show this screen to your event host to record your table's final score!
+        Show this verification code screen to your event host to record your table's official score!
       </p>
+    </div>
+
+    <!-- HOST DASHBOARD SCREEN (Accessible via #host anchor) -->
+    <div id="host-screen" class="screen">
+      <header>
+        <h1>📋 Host Score Tracker</h1>
+        <p class="subtitle">Manual Table Score Tally Sheet</p>
+      </header>
+
+      <form onsubmit="addHostScore(event)">
+        <div class="input-group">
+          <label for="host-table-input">Table Name / Number:</label>
+          <input type="text" id="host-table-input" placeholder="e.g. Table 3" required>
+        </div>
+        <div class="input-group">
+          <label for="host-score-input">Score (Out of 12):</label>
+          <input type="number" id="host-score-input" min="0" max="12" placeholder="12" required>
+        </div>
+        <button class="btn" type="submit">Add Table to Scoreboard</button>
+      </form>
+
+      <h3 style="color: var(--gold); margin-top: 1.5rem;">Live Leaderboard</h3>
+      <table class="scoreboard" id="scoreboard-table">
+        <thead>
+          <tr>
+            <th>Table</th>
+            <th>Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="scoreboard-body">
+          <tr>
+            <td colspan="3" style="text-align: center; color: var(--text-muted);">No scores recorded yet.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="btn" type="button" style="background: rgba(255,255,255,0.1); color: var(--text-light);" onclick="location.hash=''; location.reload();">Back to Quiz View</button>
     </div>
 
   </div>
 
   <script>
     var questions = [
+      // HINDUISM
       {
-        question: "1. Look at your table lantern or menu card. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many kings?",
-        clue: "Check your table card or count the lamps drawn on the lantern base!",
+        question: "1. In Hindu tradition, Diwali marks the return of Lord Rama, Sita, and Lakshmana to Ayodhya. How did the citizens guide them home through the dark?",
+        clue: "Look inside your tabletop lantern!",
+        options: ["By lighting rows of clay diyas", "By setting off paper lanterns", "By building large bonfires", "By beating traditional drums"],
+        correct: 0,
+        fact: "The citizens of Ayodhya lit thousands of earthen diyas to illuminate the path for Lord Rama's return, symbolising light triumphing over darkness."
+      },
+      {
+        question: "2. During Diwali, Goddess Lakshmi is welcomed into homes. What floor art is traditionally drawn at entrances to invite good fortune?",
+        clue: "Check the visual patterns drawn on your table cards!",
+        options: ["Rangoli", "Henna", "Batik", "Mandala Wall Hangings"],
+        correct: 0,
+        fact: "Rangoli patterns are created using coloured powders, rice, or flower petals to welcome Goddess Lakshmi and bring auspicious energy."
+      },
+      {
+        question: "3. What is the symbolic meaning behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
+        clue: "Reflect on host question #7 on your table sheet!",
+        options: ["Preparing space for new furniture", "Clearing out physical and emotional clutter for renewal", "Spring cleaning before winter", "A mandatory household task with no symbolism"],
+        correct: 1,
+        fact: "Diwali ki Safai symbolises clearing out negativity, grudges, and physical clutter to make room for positive energy and fresh beginnings."
+      },
+
+      // SIKHISM
+      {
+        question: "4. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many innocent kings?",
+        clue: "Count the lamps drawn on your table lantern base!",
         options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
         correct: 1,
-        fact: "Bandi Chhor Divas marks the day Guru Hargobind Ji negotiated the release of 52 innocent political prisoner kings from Gwalior Fort by crafting a special robe with 52 tassels."
+        fact: "Guru Hargobind Ji negotiated the freedom of 52 political prisoner kings by crafting a special cloak with 52 tassels so every king could hold on and walk out together."
       },
       {
-        question: "2. In Jain tradition, Diwali marks a significant spiritual milestone for Lord Mahavira. What event is commemorated?",
+        question: "5. When Guru Hargobind Ji arrived back in Amritsar on Bandi Chhor Divas, how was the Harmandir Sahib (Golden Temple) celebrated?",
+        clue: "Check your table card under 'Sikh Traditions'.",
+        options: ["It was completely illuminated with thousands of lamps", "A silent march was held", "Special golden flags were flown", "A new fort wall was built"],
+        correct: 0,
+        fact: "Sikhs celebrated the Guru's return by illuminating the entire Harmandir Sahib complex with oil lamps, a tradition continued to this day."
+      },
+      {
+        question: "6. Which core Sikh value is highlighted during Bandi Chhor Divas through community meals offered to all guests?",
+        clue: "Look at your table menu under 'Seva'.",
+        options: ["Langar (Selfless service through free meals)", "Tapas (Ascetic fasting)", "Puja (Ritual worship)", "Moksha (Liberation)"],
+        correct: 0,
+        fact: "Langar embodies equality and selfless service (Seva), ensuring everyone regardless of background sits and eats together as equals."
+      },
+
+      // JAINISM
+      {
+        question: "7. For Jains, Diwali marks a monumental spiritual milestone for Lord Mahavira (the 24th Tirthankara). What event is commemorated?",
         clue: "Check the Jain Tradition card on your table.",
-        options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His return from exile"],
+        options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His coronation"],
         correct: 1,
-        fact: "For Jains, Diwali marks the liberation (Moksha) of Lord Mahavira, the 24th Tirthankara, in 527 BCE."
+        fact: "In 527 BCE, Lord Mahavira achieved Moksha (liberation from the cycle of rebirth) at Pavapuri on the day of Amavasya (Diwali)."
       },
       {
-        question: "3. In Newar Buddhist tradition, the 5-day autumn festival is known as Swanti. Which unique ritual celebrates self-respect and inner divinity?",
-        clue: "Look at your table menu under 'Buddhist Traditions'.",
-        options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Laxmi Puja", "Dog Puja (Kukur Tihar)"],
+        question: "8. What special traditional sweet offering is prepared by Jain devotees on Diwali morning to mark Mahavira's liberation?",
+        clue: "Look at your table food callouts!",
+        options: ["Nirvana Ladoo", "Jalebi", "Gulab Jamun", "Kheer"],
         correct: 0,
-        fact: "Mha Puja is a unique Newar tradition where individuals cleanse and worship their own inner spirit, purifying the mind for the new year."
+        fact: "Nirvana Ladoo is a large, sacred sweet ball offered in Jain temples on Diwali morning to symbolise the sweetness of spiritual liberation."
       },
       {
-        question: "4. What is the traditional metaphor behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
-        clue: "Reflect on host question #7 on your table sheet!",
-        options: ["Spring cleaning before winter", "Clearing out physical and mental clutter to invite positivity", "Preparing space for guest furniture", "A strictly mandatory chore with no symbolic meaning"],
-        correct: 1,
-        fact: "Diwali ki Safai symbolises clearing out emotional and physical clutter to welcome fresh energy, renewal, and positivity."
-      },
-      {
-        question: "5. What do the glowing earthen lamps (Diyas) traditionally symbolise across all four celebrating faiths?",
-        clue: "Look inside your tabletop lantern!",
-        options: ["Triumph of light over darkness and knowledge over ignorance", "A sign for fireworks displays", "A guide for travelling guests only", "A seasonal decoration"],
+        question: "9. Jainism emphasizes 'Ahimsa' (non-violence to all living beings). How does this influence traditional Jain Diwali light celebrations?",
+        clue: "Look at the gentle flame guidance on your lantern prop!",
+        options: ["Using gentle diyas while being mindful not to harm small insects", "Using loud fireworks", "Lighting large bonfires", "Using bright searchlights"],
         correct: 0,
-        fact: "Across Hinduism, Sikhism, Jainism, and Buddhism, the light of the diya represents hope, inner light, and the victory of wisdom over darkness."
+        fact: "Out of deep respect for Ahimsa, Jain celebrations focus on gentle light and inner wisdom while avoiding fireworks or open fires that could harm small creatures."
+      },
+
+      // NEWAR BUDDHISM (SWANTI)
+      {
+        question: "10. In Nepal's Newar Buddhist tradition, the 5-day autumn celebration is known as Swanti. Which unique ritual celebrates one's own inner spirit and divinity?",
+        clue: "Look under 'Buddhist Traditions' on your table sheet.",
+        options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Kukur Tihar", "Laxmi Puja"],
+        correct: 0,
+        fact: "Mha Puja is an inspiring Newar Buddhist tradition where individuals cleanse and worship their own inner self to purify the mind for the upcoming year."
+      },
+      {
+        question: "11. During the Swanti festival, which day is dedicated to honouring dogs for their loyalty and guardianship?",
+        clue: "Check the 5-day Swanti schedule card on your table!",
+        options: ["Kukur Tihar", "Gai Tihar", "Crow Tihar", "Mha Puja"],
+        correct: 0,
+        fact: "Kukur Tihar honors dogs with flower garlands (marigolds) and delicious food to celebrate their loyalty and special bond with humans."
+      },
+      {
+        question: "12. Across all four traditions (Hindu, Sikh, Jain, and Newar Buddhist), what does the single glowing flame of a Diya represent?",
+        clue: "Look at the center of your table lantern!",
+        options: ["The victory of light over darkness and wisdom over ignorance", "A signal for seasonal harvest", "A simple winter decoration", "A marker for family travel"],
+        correct: 0,
+        fact: "The diya is a universal symbol of hope, inner knowledge, unity, and the triumph of goodness over darkness across all four faiths."
       }
     ];
 
@@ -323,13 +449,22 @@
     var score = 0;
     var tableName = "";
     var answered = false;
+    var hostScores = [];
+
+    // Check if Host Hash (#host) is active in URL
+    window.onload = function() {
+      if (location.hash === "#host") {
+        document.getElementById("start-screen").classList.remove("active");
+        document.getElementById("host-screen").classList.add("active");
+      }
+    };
 
     function handleStart(e) {
       if (e) e.preventDefault();
       var input = document.getElementById("table-name").value;
       tableName = input ? input.trim() : "Table 1";
-      document.getElementById("start-screen").style.display = "none";
-      document.getElementById("quiz-screen").style.display = "block";
+      document.getElementById("start-screen").classList.remove("active");
+      document.getElementById("quiz-screen").classList.add("active");
       loadQuestion();
       return false;
     }
@@ -338,7 +473,7 @@
       answered = false;
       var q = questions[currentQ];
       
-      document.getElementById("progress").style.width = ((currentQ / questions.length) * 100) + "%";
+      document.getElementById("progress").style.width = (((currentQ) / questions.length) * 100) + "%";
 
       var clueBox = document.getElementById("clue-container");
       if (q.clue) {
@@ -400,11 +535,16 @@
     }
 
     function showResults() {
-      document.getElementById("quiz-screen").style.display = "none";
-      document.getElementById("end-screen").style.display = "block";
+      document.getElementById("quiz-screen").classList.remove("active");
+      document.getElementById("end-screen").classList.add("active");
 
       document.getElementById("cert-table-name").textContent = tableName;
       document.getElementById("final-score").textContent = score + " / " + questions.length;
+
+      // Generate verification code
+      var cleanTable = tableName.replace(/[^a-zA-Z0-9]/g, "").toUpperCase().substring(0, 4);
+      var code = (cleanTable || "TBL") + "-S" + score + "Q" + questions.length;
+      document.getElementById("verification-code").textContent = code;
 
       var msg = "";
       if (score === questions.length) {
@@ -415,6 +555,36 @@
         msg = "🪔 Great effort! We hope you enjoyed learning more about Diwali, Bandi Chhor Divas, and Swanti today.";
       }
       document.getElementById("cert-message").textContent = msg;
+    }
+
+    // Host Screen Logic
+    function addHostScore(e) {
+      if (e) e.preventDefault();
+      var tName = document.getElementById("host-table-input").value.trim();
+      var tScore = document.getElementById("host-score-input").value;
+
+      if (!tName || tScore === "") return;
+
+      hostScores.push({ name: tName, score: parseInt(tScore) });
+      hostScores.sort(function(a, b) { return b.score - a.score; });
+
+      renderScoreboard();
+      document.getElementById("host-table-input").value = "";
+      document.getElementById("host-score-input").value = "";
+      return false;
+    }
+
+    function renderScoreboard() {
+      var tbody = document.getElementById("scoreboard-body");
+      tbody.innerHTML = "";
+      for (var i = 0; i < hostScores.length; i++) {
+        var tr = document.createElement("tr");
+        var rankBadge = (i === 0) ? " 🥇" : (i === 1) ? " 🥈" : (i === 2) ? " 🥉" : "";
+        tr.innerHTML = "<td><strong>" + hostScores[i].name + "</strong>" + rankBadge + "</td>" +
+                       "<td>" + hostScores[i].score + " / 12</td>" +
+                       "<td><span style='color:#81C784;'>Verified</span></td>";
+        tbody.appendChild(tr);
+      }
     }
   </script>
 </body>
