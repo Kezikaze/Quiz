@@ -100,10 +100,6 @@
       margin-top: 1rem;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
     .progress-bar {
       width: 100%;
       height: 8px;
@@ -229,12 +225,13 @@
         Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
       </p>
 
-      <div class="input-group">
-        <label for="table-name">Enter Your Table Name / Number:</label>
-        <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" value="Table 1">
-      </div>
-
-      <button class="btn" id="start-btn" type="button">Start Quiz</button>
+      <form id="quiz-start-form" onsubmit="handleStart(event)">
+        <div class="input-group">
+          <label for="table-name">Enter Your Table Name / Number:</label>
+          <input type="text" id="table-name" placeholder="e.g. Table 4 or Team Samosa" required>
+        </div>
+        <button class="btn" type="submit">Start Quiz</button>
+      </form>
 
       <p class="privacy-notice">
         🔒 Privacy Assurance: This app runs entirely inside your browser. Zero data is collected, saved, or sent to any server.
@@ -257,7 +254,7 @@
 
       <div id="feedback-container" class="feedback-box" style="display: none;"></div>
 
-      <button class="btn" id="next-btn" type="button" style="display: none;">Next Question</button>
+      <button class="btn" id="next-btn" type="button" style="display: none;" onclick="handleNext()">Next Question</button>
     </div>
 
     <!-- END SCREEN -->
@@ -274,7 +271,7 @@
         <p id="cert-message" style="font-size: 0.95rem; color: var(--text-muted);"></p>
       </div>
 
-      <button class="btn" id="reload-btn" type="button">Play Again</button>
+      <button class="btn" type="button" onclick="location.reload()">Play Again</button>
 
       <p class="privacy-notice">
         Show this screen to your event host to record your table's final score!
@@ -284,67 +281,141 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const questions = [
-        {
-          question: "1. Look at your table lantern or menu card. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many kings?",
-          clue: "Check your table card or count the lamps drawn on the lantern base!",
-          options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
-          correct: 1,
-          fact: "Bandi Chhor Divas marks the day Guru Hargobind Ji negotiated the release of 52 innocent political prisoner kings from Gwalior Fort by crafting a special robe with 52 tassels."
-        },
-        {
-          question: "2. In Jain tradition, Diwali marks a significant spiritual milestone for Lord Mahavira. What event is commemorated?",
-          clue: "Check the Jain Tradition card on your table.",
-          options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His return from exile"],
-          correct: 1,
-          fact: "For Jains, Diwali marks the liberation (Moksha) of Lord Mahavira, the 24th Tirthankara, in 527 BCE."
-        },
-        {
-          question: "3. In Newar Buddhist tradition, the 5-day autumn festival is known as Swanti. Which unique ritual celebrates self-respect and inner divinity?",
-          clue: "Look at your table menu under 'Buddhist Traditions'.",
-          options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Laxmi Puja", "Dog Puja (Kukur Tihar)"],
-          correct: 0,
-          fact: "Mha Puja is a unique Newar tradition where individuals cleanse and worship their own inner spirit, purifying the mind for the new year."
-        },
-        {
-          question: "4. What is the traditional metaphor behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
-          clue: "Reflect on host question #7 on your table sheet!",
-          options: ["Spring cleaning before winter", "Clearing out physical and mental clutter to invite positivity", "Preparing space for guest furniture", "A strictly mandatory chore with no symbolic meaning"],
-          correct: 1,
-          fact: "Diwali ki Safai symbolises clearing out emotional and physical clutter to welcome fresh energy, renewal, and positivity."
-        },
-        {
-          question: "5. What do the glowing earthen lamps (Diyas) traditionally symbolise across all four celebrating faiths?",
-          clue: "Look inside your tabletop lantern!",
-          options: ["Triumph of light over darkness and knowledge over ignorance", "A sign for fireworks displays", "A guide for travelling guests only", "A seasonal decoration"],
-          correct: 0,
-          fact: "Across Hinduism, Sikhism, Jainism, and Buddhism, the light of the diya represents hope, inner light, and the victory of wisdom over darkness."
-        }
-      ];
+    var questions = [
+      {
+        question: "1. Look at your table lantern or menu card. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many kings?",
+        clue: "Check your table card or count the lamps drawn on the lantern base!",
+        options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
+        correct: 1,
+        fact: "Bandi Chhor Divas marks the day Guru Hargobind Ji negotiated the release of 52 innocent political prisoner kings from Gwalior Fort by crafting a special robe with 52 tassels."
+      },
+      {
+        question: "2. In Jain tradition, Diwali marks a significant spiritual milestone for Lord Mahavira. What event is commemorated?",
+        clue: "Check the Jain Tradition card on your table.",
+        options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His return from exile"],
+        correct: 1,
+        fact: "For Jains, Diwali marks the liberation (Moksha) of Lord Mahavira, the 24th Tirthankara, in 527 BCE."
+      },
+      {
+        question: "3. In Newar Buddhist tradition, the 5-day autumn festival is known as Swanti. Which unique ritual celebrates self-respect and inner divinity?",
+        clue: "Look at your table menu under 'Buddhist Traditions'.",
+        options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Laxmi Puja", "Dog Puja (Kukur Tihar)"],
+        correct: 0,
+        fact: "Mha Puja is a unique Newar tradition where individuals cleanse and worship their own inner spirit, purifying the mind for the new year."
+      },
+      {
+        question: "4. What is the traditional metaphor behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
+        clue: "Reflect on host question #7 on your table sheet!",
+        options: ["Spring cleaning before winter", "Clearing out physical and mental clutter to invite positivity", "Preparing space for guest furniture", "A strictly mandatory chore with no symbolic meaning"],
+        correct: 1,
+        fact: "Diwali ki Safai symbolises clearing out emotional and physical clutter to welcome fresh energy, renewal, and positivity."
+      },
+      {
+        question: "5. What do the glowing earthen lamps (Diyas) traditionally symbolise across all four celebrating faiths?",
+        clue: "Look inside your tabletop lantern!",
+        options: ["Triumph of light over darkness and knowledge over ignorance", "A sign for fireworks displays", "A guide for travelling guests only", "A seasonal decoration"],
+        correct: 0,
+        fact: "Across Hinduism, Sikhism, Jainism, and Buddhism, the light of the diya represents hope, inner light, and the victory of wisdom over darkness."
+      }
+    ];
 
-      let currentQ = 0;
-      let score = 0;
-      let tableName = "Table 1";
-      let answered = false;
+    var currentQ = 0;
+    var score = 0;
+    var tableName = "";
+    var answered = false;
 
-      const startBtn = document.getElementById("start-btn");
-      const nextBtn = document.getElementById("next-btn");
-      const reloadBtn = document.getElementById("reload-btn");
-      const tableNameInput = document.getElementById("table-name");
+    function handleStart(e) {
+      if (e) e.preventDefault();
+      var input = document.getElementById("table-name").value;
+      tableName = input ? input.trim() : "Table 1";
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("quiz-screen").style.display = "block";
+      loadQuestion();
+      return false;
+    }
 
-      startBtn.onclick = function() {
-        const val = tableNameInput.value.trim();
-        if (val) tableName = val;
-        document.getElementById("start-screen").classList.remove("active");
-        document.getElementById("quiz-screen").classList.add("active");
+    function loadQuestion() {
+      answered = false;
+      var q = questions[currentQ];
+      
+      document.getElementById("progress").style.width = ((currentQ / questions.length) * 100) + "%";
+
+      var clueBox = document.getElementById("clue-container");
+      if (q.clue) {
+        document.getElementById("clue-text").textContent = q.clue;
+        clueBox.style.display = "block";
+      } else {
+        clueBox.style.display = "none";
+      }
+
+      document.getElementById("question-text").textContent = q.question;
+
+      var optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = "";
+      
+      for (var i = 0; i < q.options.length; i++) {
+        (function(idx) {
+          var btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.type = "button";
+          btn.innerHTML = "<span style='color: var(--gold); font-weight: bold;'>" + String.fromCharCode(65 + idx) + ".</span> " + q.options[idx];
+          btn.onclick = function() { selectOption(idx, btn); };
+          optionsContainer.appendChild(btn);
+        })(i);
+      }
+
+      document.getElementById("feedback-container").style.display = "none";
+      document.getElementById("next-btn").style.display = "none";
+    }
+
+    function selectOption(selectedIdx, btnElement) {
+      if (answered) return;
+      answered = true;
+
+      var q = questions[currentQ];
+      var allBtns = document.querySelectorAll(".option-btn");
+
+      if (selectedIdx === q.correct) {
+        score++;
+        btnElement.classList.add("correct");
+      } else {
+        btnElement.classList.add("incorrect");
+        allBtns[q.correct].classList.add("correct");
+      }
+
+      var feedback = document.getElementById("feedback-container");
+      feedback.innerHTML = "<strong>💡 Festive Fact:</strong> " + q.fact;
+      feedback.style.display = "block";
+
+      document.getElementById("next-btn").style.display = "block";
+    }
+
+    function handleNext() {
+      currentQ++;
+      if (currentQ < questions.length) {
         loadQuestion();
-      };
+      } else {
+        showResults();
+      }
+    }
 
-      nextBtn.onclick = function() {
-        currentQ++;
-        if (currentQ < questions.length) {
-          loadQuestion();
-        } else {
-          showResults();
-        }
+    function showResults() {
+      document.getElementById("quiz-screen").style.display = "none";
+      document.getElementById("end-screen").style.display = "block";
+
+      document.getElementById("cert-table-name").textContent = tableName;
+      document.getElementById("final-score").textContent = score + " / " + questions.length;
+
+      var msg = "";
+      if (score === questions.length) {
+        msg = "🌟 Perfect Score! Your table truly knows the spirit of unity and light.";
+      } else if (score >= questions.length * 0.7) {
+        msg = "👏 Fantastic Job! Excellent cultural knowledge across all four traditions.";
+      } else {
+        msg = "🪔 Great effort! We hope you enjoyed learning more about Diwali, Bandi Chhor Divas, and Swanti today.";
+      }
+      document.getElementById("cert-message").textContent = msg;
+    }
+  </script>
+</body>
+</html>
