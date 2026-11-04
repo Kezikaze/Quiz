@@ -252,7 +252,7 @@
       </header>
 
       <p style="margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem;">
-        Welcome! Test your table's knowledge across Hindu, Sikh, Jain, and Newar Buddhist traditions. Use your table props and lanterns to uncover the physical clues!
+        Welcome! Work together with your table to answer questions across Hindu, Sikh, Jain, and Buddhist traditions. Use your table Word Search sheet to find the matching answers!
       </p>
 
       <form id="quiz-start-form" onsubmit="handleStart(event)">
@@ -275,7 +275,7 @@
       </div>
 
       <div id="clue-container" class="clue-box" style="display: none;">
-        🔍 <strong>Table Clue:</strong> <span id="clue-text"></span>
+        🔍 <strong>Word Search Clue:</strong> <span id="clue-text"></span>
       </div>
 
       <div class="question-title" id="question-text">Loading question...</div>
@@ -310,7 +310,7 @@
       </p>
     </div>
 
-    <!-- HOST DASHBOARD SCREEN (Accessible via #host anchor) -->
+    <!-- HOST DASHBOARD SCREEN (#host) -->
     <div id="host-screen" class="screen">
       <header>
         <h1>📋 Host Score Tracker</h1>
@@ -354,94 +354,94 @@
     var questions = [
       // HINDUISM
       {
-        question: "1. In Hindu tradition, Diwali marks the return of Lord Rama, Sita, and Lakshmana to Ayodhya. How did the citizens guide them home through the dark?",
-        clue: "Look inside your tabletop lantern!",
-        options: ["By lighting rows of clay diyas", "By setting off paper lanterns", "By building large bonfires", "By beating traditional drums"],
+        question: "1. In northern Hindu traditions, Diwali commemorates the victorious return of which prince to his capital of Ayodhya after 14 years of exile?",
+        clue: "Look for the four-letter name of the central protagonist of the epic Ramayana.",
+        options: ["RAMA", "ARJUNA", "KRISHNA", "YUDHISTHIRA"],
         correct: 0,
-        fact: "The citizens of Ayodhya lit thousands of earthen diyas to illuminate the path for Lord Rama's return, symbolising light triumphing over darkness."
+        fact: "Lord Rama's triumphant return to Ayodhya alongside Sita and Lakshmana is celebrated by lighting rows of clay lamps to pierce the dark new moon night."
       },
       {
-        question: "2. During Diwali, Goddess Lakshmi is welcomed into homes. What floor art is traditionally drawn at entrances to invite good fortune?",
-        clue: "Check the visual patterns drawn on your table cards!",
-        options: ["Rangoli", "Henna", "Batik", "Mandala Wall Hangings"],
+        question: "2. Which Goddess of wealth, fortune, and prosperity is traditionally worshipped during the central evening puja of Diwali?",
+        clue: "Look for the name of the goddess who represents prosperity, abundance, and grace.",
+        options: ["LAKSHMI", "PARVATI", "SARASWATI", "DURGA"],
         correct: 0,
-        fact: "Rangoli patterns are created using coloured powders, rice, or flower petals to welcome Goddess Lakshmi and bring auspicious energy."
+        fact: "Goddess Lakshmi is invited into households during the primary night of the festival to bless families with financial and spiritual well-being."
       },
       {
-        question: "3. What is the symbolic meaning behind 'Diwali ki Safai' (pre-festival deep cleaning)?",
-        clue: "Reflect on host question #7 on your table sheet!",
-        options: ["Preparing space for new furniture", "Clearing out physical and emotional clutter for renewal", "Spring cleaning before winter", "A mandatory household task with no symbolism"],
-        correct: 1,
-        fact: "Diwali ki Safai symbolises clearing out negativity, grudges, and physical clutter to make room for positive energy and fresh beginnings."
+        question: "3. Which elephant-headed deity of wisdom and remover of obstacles is traditionally worshipped alongside the goddess of wealth during the festive evening rituals?",
+        clue: "Look for the patron deity of wisdom, intellect, and auspicious new beginnings.",
+        options: ["GANESHA", "SHIVA", "VISHNU", "BRAHMA"],
+        correct: 0,
+        fact: "Lord Ganesha is revered alongside Goddess Lakshmi at the start of the puja to ensure all undertakings in the coming year are free of obstacles."
       },
 
       // SIKHISM
       {
-        question: "4. Bandi Chhor Divas commemorates the release of Guru Hargobind Ji from Gwalior Fort alongside how many innocent kings?",
-        clue: "Count the lamps drawn on your table lantern base!",
-        options: ["21 Kings", "52 Kings", "108 Kings", "12 Kings"],
-        correct: 1,
-        fact: "Guru Hargobind Ji negotiated the freedom of 52 political prisoner kings by crafting a special cloak with 52 tassels so every king could hold on and walk out together."
+        question: "4. Which 6th Sikh Guru secured his own freedom and famously negotiated the release of 52 captive princes from Gwalior Fort on Bandi Chhor Divas?",
+        clue: "Look for the name of the sixth spiritual master of the Sikhs.",
+        options: ["HARGOBIND", "NANAK", "GOBIND", "ARJAN"],
+        correct: 0,
+        fact: "Guru Hargobind Ji refused to leave confinement unless the 52 innocent rulers were freed with him, earning him the legacy title 'Bandi Chhor' (Deliverer of Prisoners)."
       },
       {
-        question: "5. When Guru Hargobind Ji arrived back in Amritsar on Bandi Chhor Divas, how was the Harmandir Sahib (Golden Temple) celebrated?",
-        clue: "Check your table card under 'Sikh Traditions'.",
-        options: ["It was completely illuminated with thousands of lamps", "A silent march was held", "Special golden flags were flown", "A new fort wall was built"],
+        question: "5. What is the traditional Hindi/Punjabi term for the small clay oil lamps lit at homes and outlining the Golden Temple complex to celebrate this historical day?",
+        clue: "Look for the plural name of the small earthen pottery lamps used with a cotton wick and oil.",
+        options: ["DIYAS", "CANDLES", "LANTERNS", "TORCHES"],
         correct: 0,
-        fact: "Sikhs celebrated the Guru's return by illuminating the entire Harmandir Sahib complex with oil lamps, a tradition continued to this day."
+        fact: "The physical layout of thousands of traditional clay oil lamps across the sacred shrine in Amritsar forms a stunning illumination display known as Deepmala."
       },
       {
-        question: "6. Which core Sikh value is highlighted during Bandi Chhor Divas through community meals offered to all guests?",
-        clue: "Look at your table menu under 'Seva'.",
-        options: ["Langar (Selfless service through free meals)", "Tapas (Ascetic fasting)", "Puja (Ritual worship)", "Moksha (Liberation)"],
+        question: "6. What is the traditional name for the colorful geometric or floral floor art created at doorways using powders or petals to welcome festive joy?",
+        clue: "Look for the vibrant, seven-letter word starting with 'R' that means 'an array of colors'.",
+        options: ["RANGOLI", "TORAN", "CHADAR", "LADDU"],
         correct: 0,
-        fact: "Langar embodies equality and selfless service (Seva), ensuring everyone regardless of background sits and eats together as equals."
+        fact: "Rangoli designs are drawn on doorsteps across communities during autumn celebrations as a universal expression of hospitality, joy, and beauty."
       },
 
       // JAINISM
       {
-        question: "7. For Jains, Diwali marks a monumental spiritual milestone for Lord Mahavira (the 24th Tirthankara). What event is commemorated?",
-        clue: "Check the Jain Tradition card on your table.",
-        options: ["His Birthday", "His attainment of Moksha (liberation)", "His first sermon", "His coronation"],
-        correct: 1,
-        fact: "In 527 BCE, Lord Mahavira achieved Moksha (liberation from the cycle of rebirth) at Pavapuri on the day of Amavasya (Diwali)."
+        question: "7. For Jains, Diwali night marks the solemn and joyous anniversary of Lord Mahavira attaining which final spiritual liberation from the cycle of rebirth?",
+        clue: "Look for the spiritual term meaning ultimate liberation, absolute enlightenment, or freedom from rebirth.",
+        options: ["NIRVANA", "SAMSARA", "KARMA", "PUJA"],
+        correct: 0,
+        fact: "Jains observe Diwali as the historical moment the 24th Tirthankara, Lord Mahavira, achieved ultimate spiritual liberation (Nirvana or Moksha) at Pavapuri."
       },
       {
-        question: "8. What special traditional sweet offering is prepared by Jain devotees on Diwali morning to mark Mahavira's liberation?",
-        clue: "Look at your table food callouts!",
-        options: ["Nirvana Ladoo", "Jalebi", "Gulab Jamun", "Kheer"],
+        question: "8. According to Jain history, which premier chief disciple of Lord Mahavira overcame profound grief and attained absolute omniscience on the very morning after his master's passing?",
+        clue: "Look for the name of Mahavira's closest disciple, which is also shared as the clan name of the historical Buddha.",
+        options: ["GAUTAMA", "SUDHARMA", "JAMBU", "BAHUBALI"],
         correct: 0,
-        fact: "Nirvana Ladoo is a large, sacred sweet ball offered in Jain temples on Diwali morning to symbolise the sweetness of spiritual liberation."
+        fact: "Gautama Swami, the primary disciple of Lord Mahavira, attained absolute spiritual enlightenment (Kevala Jnana) the morning after Diwali, marking the start of the Jain New Year."
       },
       {
-        question: "9. Jainism emphasizes 'Ahimsa' (non-violence to all living beings). How does this influence traditional Jain Diwali light celebrations?",
-        clue: "Look at the gentle flame guidance on your lantern prop!",
-        options: ["Using gentle diyas while being mindful not to harm small insects", "Using loud fireworks", "Lighting large bonfires", "Using bright searchlights"],
+        question: "9. On Diwali morning, Jain temple congregations worldwide traditionally conclude their prayers by offering a large, round, festive sweet to Lord Mahavira. What is this special offering called?",
+        clue: "Look for the singular, five-letter word for India's most famous ball-shaped festive sweet.",
+        options: ["LADOO", "BARFI", "HALWA", "JALEBI"],
         correct: 0,
-        fact: "Out of deep respect for Ahimsa, Jain celebrations focus on gentle light and inner wisdom while avoiding fireworks or open fires that could harm small creatures."
+        fact: "Jains globally gather at temples on Diwali morning to perform rituals and collectively offer the traditional 'Nirvana Ladoo' in honour of Mahavira's liberation."
       },
 
-      // NEWAR BUDDHISM (SWANTI)
+      // BUDDHISM
       {
-        question: "10. In Nepal's Newar Buddhist tradition, the 5-day autumn celebration is known as Swanti. Which unique ritual celebrates one's own inner spirit and divinity?",
-        clue: "Look under 'Buddhist Traditions' on your table sheet.",
-        options: ["Mha Puja (Self-Worship)", "Bhai Tika", "Kukur Tihar", "Laxmi Puja"],
+        question: "10. Which celebrated Mauryan Emperor embraced Buddhism, non-violence, and the light of Dhamma after witnessing the devastating casualties of the Kalinga War?",
+        clue: "Look for the name of the famous ancient Indian ruler whose lion capital forms the national emblem of modern India.",
+        options: ["ASHOKA", "CHANDRAGUPTA", "BINDUSARA", "HARSHA"],
         correct: 0,
-        fact: "Mha Puja is an inspiring Newar Buddhist tradition where individuals cleanse and worship their own inner self to purify the mind for the upcoming year."
+        fact: "Emperor Ashoka's immense remorse over battlefield suffering led him to renounce military expansion, adopt Buddhism, and spread messages of moral righteousness across ancient Asia."
       },
       {
-        question: "11. During the Swanti festival, which day is dedicated to honouring dogs for their loyalty and guardianship?",
-        clue: "Check the 5-day Swanti schedule card on your table!",
-        options: ["Kukur Tihar", "Gai Tihar", "Crow Tihar", "Mha Puja"],
+        question: "11. What is the name of the multi-day autumn festival of lights celebrated by Newar Buddhists in the Kathmandu Valley that corresponds with this exact seasonal period?",
+        clue: "Look for the five-letter name of this distinct, regional Nepalese autumn festival.",
+        options: ["SWANTI", "VESAK", "LOSAR", "KATHINA"],
         correct: 0,
-        fact: "Kukur Tihar honors dogs with flower garlands (marigolds) and delicious food to celebrate their loyalty and special bond with humans."
+        fact: "Newar Buddhists observe the multi-day Swanti festival by decorating with lights, honoring animals (like crows and dogs), and performing Mha Puja to respect the inner spirit."
       },
       {
-        question: "12. Across all four traditions (Hindu, Sikh, Jain, and Newar Buddhist), what does the single glowing flame of a Diya represent?",
-        clue: "Look at the center of your table lantern!",
-        options: ["The victory of light over darkness and wisdom over ignorance", "A signal for seasonal harvest", "A simple winter decoration", "A marker for family travel"],
+        question: "12. Ashok Vijayadashami commemorates the historic day Emperor Ashoka officially converted to Buddhism. Which key term describes the universal moral teachings and cosmic law he adopted?",
+        clue: "Look for the six-letter word representing the path of righteousness, truth, and spiritual law in Buddhism.",
+        options: ["DHAMMA", "MANTRA", "SANGHA", "SEVA"],
         correct: 0,
-        fact: "The diya is a universal symbol of hope, inner knowledge, unity, and the triumph of goodness over darkness across all four faiths."
+        fact: "Emperor Ashoka traded territorial conquest for 'Dharma-vijaya' (victory through righteousness), committing his life to the propagation of the Buddha's moral teachings and ethical code, known in Pali as Dhamma."
       }
     ];
 
@@ -451,7 +451,6 @@
     var answered = false;
     var hostScores = [];
 
-    // Check if Host Hash (#host) is active in URL
     window.onload = function() {
       if (location.hash === "#host") {
         document.getElementById("start-screen").classList.remove("active");
@@ -541,7 +540,6 @@
       document.getElementById("cert-table-name").textContent = tableName;
       document.getElementById("final-score").textContent = score + " / " + questions.length;
 
-      // Generate verification code
       var cleanTable = tableName.replace(/[^a-zA-Z0-9]/g, "").toUpperCase().substring(0, 4);
       var code = (cleanTable || "TBL") + "-S" + score + "Q" + questions.length;
       document.getElementById("verification-code").textContent = code;
@@ -557,7 +555,6 @@
       document.getElementById("cert-message").textContent = msg;
     }
 
-    // Host Screen Logic
     function addHostScore(e) {
       if (e) e.preventDefault();
       var tName = document.getElementById("host-table-input").value.trim();
